@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 namespace Assignment_2
 {
@@ -55,6 +56,7 @@ namespace Assignment_2
             int n = 4;
             int fibonacciNumber = Fibonacci(n);
             Console.WriteLine(fibonacciNumber);
+
         }
 
         // Question 1: Find Missing Numbers in Array
@@ -63,7 +65,19 @@ namespace Assignment_2
             try
             {
                 // Write your code here
-                return new List<int>(); // Placeholder
+                int n = nums.Length;
+                HashSet<int> numSet = new HashSet<int>(nums);
+
+                List<int> missingNumbers = new List<int>();
+                for (int i = 1; i <= n; i++)
+                {
+                    if (!numSet.Contains(i))
+                    {
+                        missingNumbers.Add(i);
+                    }
+                }
+                return missingNumbers;
+                //return new List<int>(); // Placeholder
             }
             catch (Exception)
             {
@@ -77,7 +91,30 @@ namespace Assignment_2
             try
             {
                 // Write your code here
-                return new int[0]; // Placeholder
+                int left = 0, right = nums.Length - 1;
+
+                while (left < right)
+                {
+                    if (nums[left] % 2 == 0)
+                    {
+                        left++;
+                    }
+                    else if (nums[right] % 2 == 1)
+                    {
+                        right--;
+                    }
+                    else
+                    {
+                        // Swap nums[left] and nums[right]
+                        int temp = nums[left];
+                        nums[left] = nums[right];
+                        nums[right] = temp;
+                        left++;
+                        right--;
+                    }
+                }
+                return nums;
+                //return new int[0]; // Placeholder
             }
             catch (Exception)
             {
@@ -91,6 +128,18 @@ namespace Assignment_2
             try
             {
                 // Write your code here
+                Dictionary<int, int> map = new Dictionary<int, int>();
+
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    int complement = target - nums[i];
+                    if (map.ContainsKey(complement))
+                    {
+                        return new int[] { map[complement], i };
+                    }
+                    map[nums[i]] = i;
+                }
+                
                 return new int[0]; // Placeholder
             }
             catch (Exception)
@@ -100,12 +149,23 @@ namespace Assignment_2
         }
 
         // Question 4: Find Maximum Product of Three Numbers
+
+        //first I thought I could jut multiply all three numbers together, as the order i which numbers are multiplied does not matter.
+        //but I noticed that if there was a negative integer, the product would be negative, and therefore not maximal. 
         public static int MaximumProduct(int[] nums)
         {
             try
             {
                 // Write your code here
-                return 0; // Placeholder
+                Array.Sort(nums);  //important because what if there are negative numbers in the array? 
+                int n = nums.Length; //
+
+               
+                int option1 = nums[n - 1] * nums[n - 2] * nums[n - 3];
+                int option2 = nums[0] * nums[1] * nums[n - 1];
+
+                return Math.Max(option1, option2);
+
             }
             catch (Exception)
             {
@@ -119,7 +179,8 @@ namespace Assignment_2
             try
             {
                 // Write your code here
-                return "101010"; // Placeholder
+
+                return Convert.ToString(decimalNumber, 2);
             }
             catch (Exception)
             {
@@ -132,8 +193,24 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                int left = 0;
+                int right = nums.Length - 1;
+
+                while (left < right)
+                {
+                    int mid = (left + right) / 2;
+
+                    if (nums[mid] > nums[right])
+                    {
+                        left = mid + 1;
+                    }
+                    else
+                    {
+                        right = mid;
+                    }
+                }
+
+                return nums[left]; // or nums[right], same at this point
             }
             catch (Exception)
             {
@@ -147,7 +224,13 @@ namespace Assignment_2
             try
             {
                 // Write your code here
-                return false; // Placeholder
+                string str = x.ToString();
+                char[] chars = str.ToCharArray();
+                Array.Reverse(chars);
+
+                return str == new string(chars);
+
+                //return false; // Placeholder
             }
             catch (Exception)
             {
@@ -161,7 +244,19 @@ namespace Assignment_2
             try
             {
                 // Write your code here
-                return 0; // Placeholder
+                if (n == 0) return 0;
+                if (n == 1) return 1;
+
+                int a = 0, b = 1, result = 0;
+
+                for (int i = 2; i<= n; i++)
+                {
+                    result = a + b;
+                    a = b;
+                    b = result;
+                }
+
+                return result;
             }
             catch (Exception)
             {
